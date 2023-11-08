@@ -1,3 +1,10 @@
+# Preview
+### `with search history suggestion`
+![image](https://github.com/fms12/ReactPhotoGallery/assets/68012074/c04ed840-f495-4860-a66d-a76f22ad979c)
+
+### `with infinite scroller and Loader`
+![image](https://github.com/fms12/ReactPhotoGallery/assets/68012074/9f68bb80-b86c-4fe0-af56-6fe263950f88)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
