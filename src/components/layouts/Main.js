@@ -4,6 +4,7 @@ import Image from "./Image";
 
 import { CircularProgress, ClickAwayListener } from "@mui/material";
 import AutoComplete from "./AutoComplete";
+import Search from "./Search";
 
 function Main() {
   const [queryImages, setQueryImages] = useState([]);
@@ -12,16 +13,12 @@ function Main() {
   const [perPage, setPerPage] = useState(1);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [showSuggestions, setShowSuggestions] = useState(false);
+
   const intersectionRef = useRef(null);
   const [searchSuggestions, setSearchSuggestions] = useState([]);
 
   const handleChange = (e) => {
     setSearchQuery(e.target.value);
-  };
-
-  const handleClickAway = () => {
-    setShowSuggestions(false);
   };
 
   useEffect(() => {
@@ -95,8 +92,8 @@ function Main() {
         const data = await searchPhotos(searchQuery);
         const newSuggestions = [...searchSuggestions, searchQuery];
         setQueryImages(data.photos.photo);
-       setSearchSuggestions(newSuggestions);
-       localStorage.setItem("savedSearches", JSON.stringify(newSuggestions));
+        setSearchSuggestions(newSuggestions);
+        localStorage.setItem("savedSearches", JSON.stringify(newSuggestions));
         setSearchQuery("");
       } catch (error) {
         console.error("Error searching for photos:", error);
@@ -117,37 +114,15 @@ function Main() {
             />
           </div>
           {/* Search section */}
-          <div className="flex flex-grow justify-center">
-            <form onSubmit={handleSearchRequest} className="flex">
-              <ClickAwayListener onClickAway={handleClickAway}>
-                <div className="bg-black items-center border-2 border-solid border-[#222222] border-r-0 rounded-tl-[40px] rounded-bl-[40px] caret-[white] ">
-                  <input
-                    type="text"
-                    className="border-none relative w-[30rem] py-[7px] outline-none leading-6 bg-transparent text-white"
-                    value={searchQuery}
-                    onChange={handleChange}
-                    onFocus={setShowSuggestions}
-                    onBlur={setShowSuggestions}
-                  />
-                </div>
-              </ClickAwayListener>
-              <button className="border border-[#222222] rounded-r-full cursor-pointer py-[6.5px] w-[5.5rem]  m-0 text-white  bg-[#222222] max-sm:w-[3rem]">
-                Search
-              </button>
-            </form>
-            {showSuggestions && (
-              <div className="flex justify-center items-center">
-                <div className=" absolute  right-[34.5em]   w-[30rem] top-[3.5rem] ">
-                  {searchSuggestions.map((suggestion) => (
-                    <AutoComplete key={suggestion} suggestion={suggestion} />
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
+          <Search
+            handleChange={handleChange}
+            handleSearchRequest={handleSearchRequest}
+            searchQuery={searchQuery}
+            searchSuggestions={searchSuggestions}
+          />
         </div>
       </div>
-      
+
       {/* Image Grid */}
       <div className="mt-10">
         {queryImages.length > 0 ? (
